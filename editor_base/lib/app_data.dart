@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_cupertino_desktop_kit/cdk.dart';
 import 'app_data_actions.dart';
 import 'util_shape.dart';
 
@@ -12,6 +13,7 @@ class AppData with ChangeNotifier {
   double zoom = 95;
   Size docSize = const Size(500, 400);
   String toolSelected = "shape_drawing";
+  Color backgroundColor = CDKTheme.magenta;
   Shape newShape = Shape();
   List<Shape> shapesList = [];
 
@@ -91,6 +93,11 @@ class AppData with ChangeNotifier {
 
   void setNewShapeStrokeWidth(double value) {
     newShape.setStrokeWidth(value);
+    notifyListeners();
+  }
+
+  void setBackgroundColor(Color color) {
+    backgroundColor = color;
     notifyListeners();
   }
 }

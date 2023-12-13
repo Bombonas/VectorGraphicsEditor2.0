@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_cupertino_desktop_kit/cdk.dart';
 
 class Shape {
   Offset position = const Offset(0, 0);
@@ -6,6 +7,7 @@ class Shape {
   double rotation = 0;
   List<Offset> vertices = [];
   double strokeWidth = 1;
+  Color color = CDKTheme.black;
 
   Shape();
 
