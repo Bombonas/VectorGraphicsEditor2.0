@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_desktop_kit/cdk.dart';
 import 'app_data_actions.dart';
+import 'app_click_selector.dart';
 import 'util_shape.dart';
 
 class AppData with ChangeNotifier {
@@ -17,6 +18,9 @@ class AppData with ChangeNotifier {
   Shape newShape = Shape();
   List<Shape> shapesList = [];
   ValueNotifier<Color> valueColorNotifier = ValueNotifier(CDKTheme.black);
+  ValueNotifier<Color> valueShapeColorNotifier = ValueNotifier(CDKTheme.black);
+  int shapeSelected = -1;
+  int shapeSelectedPrevious = -1;
 
   bool readyExample = false;
   late dynamic dataExample;
@@ -56,6 +60,29 @@ class AppData with ChangeNotifier {
     }
   }
 
+  Future<void> selectShapeAtPosition(Offset docPosition, Offset localPosition,
+      BoxConstraints constraints, Offset center) async {
+    shapeSelectedPrevious = shapeSelected;
+    shapeSelected = -1;
+    setShapeSelected(await AppClickSelector.selectShapeAtPosition(
+        this, docPosition, localPosition, constraints, center));
+  }
+
+  void addNewShapeToShapesList() {
+    // Si no hi ha almenys 2 punts, no es podrà dibuixar res
+    if (newShape.vertices.length >= 2) {
+      double strokeWidthConfig = newShape.strokeWidth;
+      actionManager.register(ActionAddNewShape(this, newShape));
+      newShape = Shape();
+      newShape.setStrokeWidth(strokeWidthConfig);
+    }
+  }
+
+  void setShapeSelected(int index) {
+    shapeSelected = index;
+    notifyListeners();
+  }
+
   void setDocWidth(double value) {
     double previousWidth = docSize.width;
     actionManager.register(ActionSetDocWidth(this, previousWidth, value));
@@ -72,6 +99,7 @@ class AppData with ChangeNotifier {
   }
 
   void addNewShape(Offset position) {
+    newShape.color = valueShapeColorNotifier.value;
     newShape.setPosition(position);
     newShape.addPoint(const Offset(0, 0));
     notifyListeners();
@@ -80,16 +108,6 @@ class AppData with ChangeNotifier {
   void addRelativePointToNewShape(Offset point) {
     newShape.addRelativePoint(point);
     notifyListeners();
-  }
-
-  void addNewShapeToShapesList() {
-    // Si no hi ha almenys 2 punts, no es podrà dibuixar res
-    if (newShape.vertices.length >= 2) {
-      double strokeWidthConfig = newShape.strokeWidth;
-      actionManager.register(ActionAddNewShape(this, newShape));
-      newShape = Shape();
-      newShape.setStrokeWidth(strokeWidthConfig);
-    }
   }
 
   void setNewShapeStrokeWidth(double value) {

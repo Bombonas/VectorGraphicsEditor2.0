@@ -9,7 +9,9 @@ class Shape {
   double strokeWidth = 1;
   Color color = CDKTheme.black;
 
-  Shape();
+  Shape({
+    this.color = CDKTheme.black,
+  });
 
   void setPosition(Offset newPosition) {
     position = newPosition;
