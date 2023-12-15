@@ -204,7 +204,7 @@ class LayoutDesignPainter extends CustomPainter {
     }
 
     // Dibuixa el fons del document aquí ...
-    Paint paint = Paint()..color = appData.backgroundColor;
+    Paint paint = Paint()..color = appData.valueColorNotifier.value;
     canvas.drawRect(Rect.fromLTWH(0, 0, docW, docH), paint);
 
     // Dibuixa la llista de poligons (segons correspon, relatiu a la seva posició)

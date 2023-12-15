@@ -16,6 +16,7 @@ class AppData with ChangeNotifier {
   Color backgroundColor = CDKTheme.transparent;
   Shape newShape = Shape();
   List<Shape> shapesList = [];
+  ValueNotifier<Color> valueColorNotifier = ValueNotifier(CDKTheme.black);
 
   bool readyExample = false;
   late dynamic dataExample;
@@ -96,8 +97,7 @@ class AppData with ChangeNotifier {
     notifyListeners();
   }
 
-  void setBackgroundColor(Color color) {
-    backgroundColor = color;
+  void setBackgroundColor() {
     notifyListeners();
   }
 }

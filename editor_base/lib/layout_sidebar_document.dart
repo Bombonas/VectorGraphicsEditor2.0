@@ -22,7 +22,6 @@ class LayoutSidebarDocumentState extends State<LayoutSidebarDocument> {
         GlobalKey();
     GlobalKey<CDKButtonColorState> backgroundColorKey =
         GlobalKey<CDKButtonColorState>();
-    ValueNotifier<Color> _valueColorNotifier = ValueNotifier(CDKTheme.black);
 
     return Container(
       padding: const EdgeInsets.all(4.0),
@@ -90,11 +89,11 @@ class LayoutSidebarDocumentState extends State<LayoutSidebarDocument> {
                         child: Text("Background color:", style: font)),
                     const SizedBox(width: 4),
                     ValueListenableBuilder<Color>(
-                        valueListenable: _valueColorNotifier,
+                        valueListenable: appData.valueColorNotifier,
                         builder: (context, value, child) {
                           return CDKButtonColor(
                               key: backgroundColorKey,
-                              color: _valueColorNotifier.value,
+                              color: appData.valueColorNotifier.value,
                               onPressed: () {
                                 CDKDialogsManager.showPopoverArrowed(
                                     key: DialogPopoverKey,
@@ -103,14 +102,15 @@ class LayoutSidebarDocumentState extends State<LayoutSidebarDocument> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: ValueListenableBuilder<Color>(
-                                        valueListenable: _valueColorNotifier,
+                                        valueListenable:
+                                            appData.valueColorNotifier,
                                         builder: (context, value, child) {
                                           return CDKPickerColor(
                                             color: value,
                                             onChanged: (color) {
-                                              _valueColorNotifier.value = color;
-                                              appData.setBackgroundColor(
-                                                  _valueColorNotifier.value);
+                                              appData.valueColorNotifier.value =
+                                                  color;
+                                              appData.setBackgroundColor();
                                             },
                                           );
                                         },
