@@ -15,6 +15,7 @@ class AppData with ChangeNotifier {
   Size docSize = const Size(500, 400);
   String toolSelected = "shape_drawing";
   Color backgroundColor = CDKTheme.transparent;
+  Color prevBackgroundColor = CDKTheme.transparent;
   Shape newShape = Shape();
   List<Shape> shapesList = [];
   ValueNotifier<Color> valueColorNotifier = ValueNotifier(CDKTheme.black);
@@ -115,7 +116,9 @@ class AppData with ChangeNotifier {
     notifyListeners();
   }
 
-  void setBackgroundColor() {
+  void setBackgroundColor(Color previousColor) {
+    actionManager.register(
+        ActionsAddBackground(this, valueColorNotifier.value, previousColor));
     notifyListeners();
   }
 }

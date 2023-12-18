@@ -108,14 +108,20 @@ class LayoutSidebarDocumentState extends State<LayoutSidebarDocument> {
                                           return CDKPickerColor(
                                             color: value,
                                             onChanged: (color) {
+                                              appData.prevBackgroundColor =
+                                                  appData
+                                                      .valueColorNotifier.value;
                                               appData.valueColorNotifier.value =
                                                   color;
-                                              appData.setBackgroundColor();
                                             },
                                           );
                                         },
                                       ),
-                                    ));
+                                    ),
+                                    onHide: () {
+                                      appData.setBackgroundColor(
+                                          appData.prevBackgroundColor);
+                                    });
                               });
                         })
                   ],

@@ -103,3 +103,25 @@ class ActionAddNewShape implements Action {
     appData.forceNotifyListeners();
   }
 }
+
+class ActionsAddBackground implements Action {
+  final AppData appData;
+  final Color previousColor;
+  final Color actualColor;
+
+  ActionsAddBackground(this.appData, this.actualColor, this.previousColor);
+
+  @override
+  void redo() {
+    appData.valueColorNotifier.value = actualColor;
+    appData.forceNotifyListeners();
+    print("Redo" + appData.valueColorNotifier.value.toString());
+  }
+
+  @override
+  void undo() {
+    appData.valueColorNotifier.value = previousColor;
+    appData.forceNotifyListeners();
+    print("Undo" + appData.valueColorNotifier.value.toString());
+  }
+}
