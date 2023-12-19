@@ -95,6 +95,8 @@ class LayoutSidebarDocumentState extends State<LayoutSidebarDocument> {
                               key: backgroundColorKey,
                               color: appData.valueColorNotifier.value,
                               onPressed: () {
+                                appData.prevBackgroundColor =
+                                    appData.valueColorNotifier.value;
                                 CDKDialogsManager.showPopoverArrowed(
                                     key: DialogPopoverKey,
                                     context: context,
@@ -108,9 +110,6 @@ class LayoutSidebarDocumentState extends State<LayoutSidebarDocument> {
                                           return CDKPickerColor(
                                             color: value,
                                             onChanged: (color) {
-                                              appData.prevBackgroundColor =
-                                                  appData
-                                                      .valueColorNotifier.value;
                                               appData.valueColorNotifier.value =
                                                   color;
                                             },

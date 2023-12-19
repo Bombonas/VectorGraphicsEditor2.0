@@ -14,7 +14,6 @@ class AppData with ChangeNotifier {
   double zoom = 95;
   Size docSize = const Size(500, 400);
   String toolSelected = "shape_drawing";
-  Color backgroundColor = CDKTheme.transparent;
   Color prevBackgroundColor = CDKTheme.transparent;
   Shape newShape = Shape();
   List<Shape> shapesList = [];
