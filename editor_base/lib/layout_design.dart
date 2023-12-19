@@ -126,7 +126,9 @@ class LayoutDesignState extends State<LayoutDesign> {
                       ? _isMouseButtonPressed
                           ? SystemMouseCursors.grabbing
                           : SystemMouseCursors.grab
-                      : MouseCursor.defer, // El cursor per defecte
+                      : appData.toolSelected == "shape_drawing"
+                          ? SystemMouseCursors.precise
+                          : MouseCursor.defer, // El cursor per defecte
                   child: Listener(
                       onPointerDown: (event) {
                         _focusNode.requestFocus();
