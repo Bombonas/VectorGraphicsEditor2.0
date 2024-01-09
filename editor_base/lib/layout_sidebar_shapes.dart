@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'util_shape.dart';
+import 'sidebar_shape_painter.dart';
 
 class LayoutSidebarShapes extends StatelessWidget {
   const LayoutSidebarShapes({super.key});
@@ -18,15 +19,17 @@ class LayoutSidebarShapes extends StatelessWidget {
           children: [
             const Text('List of shapes'),
             const SizedBox(height: 8),
-            // appData.shapesList.isNotEmpty ? appData.shapesList.map((shape) {
-            //   return Row(
-            //     children: [
-            //       Text(shape.vertices.length.toString()),
-            //       const SizedBox(width: 8),
-            //       Text(shape.color.toString()),
-            //     ],
-            //   );
-            // }).toList() : const Text('No shapes'),
+            ...appData.shapesList.map((shape) {
+              return Container(
+                  child: Row(children: [
+                Text("Shape ${appData.shapesList.indexOf(shape) + 1}"),
+                const SizedBox(width: 98),
+                CustomPaint(
+                  painter: SidebarShapePainter(shape),
+                  size: const Size(48, 48),
+                ),
+              ]));
+            }).toList(),
           ],
         ),
       ),
