@@ -117,13 +117,29 @@ class ActionsAddBackground implements Action {
   void redo() {
     appData.valueColorNotifier.value = actualColor;
     appData.forceNotifyListeners();
-    print("Redo" + appData.valueColorNotifier.value.toString());
   }
 
   @override
   void undo() {
     appData.valueColorNotifier.value = previousColor;
     appData.forceNotifyListeners();
-    print("Undo" + appData.valueColorNotifier.value.toString());
   }
+}
+
+class ActionsEditShape implements Action {
+  final AppData appData;
+  final Color previousColor;
+  final int previousStroke;
+  final Shape shape;
+
+  ActionsEditShape(
+      this.appData, this.previousColor, this.previousStroke, this.shape);
+
+  @override
+  void redo() {
+    int auxStroke = 
+  }
+
+  @override
+  void undo() {}
 }
