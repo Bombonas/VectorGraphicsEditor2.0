@@ -49,7 +49,7 @@ class SidebarShapePainter extends CustomPainter {
     canvas.scale(scale);
 
     // Dibuixa el polígon
-    LayoutDesignPainter.paintShape(canvas, shape);
+    LayoutDesignPainter.paintShape(canvas, shape, false);
   }
 
   @override

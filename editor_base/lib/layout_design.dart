@@ -166,8 +166,6 @@ class LayoutDesignState extends State<LayoutDesign> {
                                   event.localPosition,
                                   constraints,
                                   center));
-                          print(appData.shapesList);
-                          print(appData.shapeSelected);
                         }
                         setState(() {});
                       },

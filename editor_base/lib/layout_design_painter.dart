@@ -146,22 +146,52 @@ class LayoutDesignPainter extends CustomPainter {
     canvas.drawRect(rectRullerCorner, paintRulerTop);
   }
 
-  static void paintShape(Canvas canvas, Shape shape) {
+  static void paintShape(Canvas canvas, Shape shape, bool selected) {
     if (shape.vertices.isNotEmpty) {
       Paint paint = Paint();
       paint.color = shape.color;
       paint.style = PaintingStyle.stroke;
       paint.strokeWidth = shape.strokeWidth;
-      double x = shape.position.dx + shape.vertices[0].dx;
-      double y = shape.position.dy + shape.vertices[0].dy;
-      Path path = Path();
-      path.moveTo(x, y);
-      for (int i = 1; i < shape.vertices.length; i++) {
-        x = shape.position.dx + shape.vertices[i].dx;
-        y = shape.position.dy + shape.vertices[i].dy;
-        path.lineTo(x, y);
+
+      if (selected) {
+        Paint highlightPaint = Paint()
+          ..color = ui.Color.fromARGB(255, 255, 174, 0)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 2;
+
+        double x = shape.position.dx + shape.vertices[0].dx;
+        double y = shape.position.dy + shape.vertices[0].dy;
+        Path path = Path();
+        path.moveTo(x, y);
+        for (int i = 1; i < shape.vertices.length; i++) {
+          x = shape.position.dx + shape.vertices[i].dx;
+          y = shape.position.dy + shape.vertices[i].dy;
+          path.lineTo(x, y);
+        }
+        canvas.drawPath(path, paint);
+
+        Rect bounds = path.getBounds();
+        double strokeWidthOffset =
+            shape.strokeWidth / 2; // Mitad del grosor de la línea
+        Rect highlightedBounds = Rect.fromLTRB(
+          bounds.left - strokeWidthOffset,
+          bounds.top - strokeWidthOffset,
+          bounds.right + strokeWidthOffset,
+          bounds.bottom + strokeWidthOffset,
+        );
+        canvas.drawRect(highlightedBounds, highlightPaint);
+      } else {
+        double x = shape.position.dx + shape.vertices[0].dx;
+        double y = shape.position.dy + shape.vertices[0].dy;
+        Path path = Path();
+        path.moveTo(x, y);
+        for (int i = 1; i < shape.vertices.length; i++) {
+          x = shape.position.dx + shape.vertices[i].dx;
+          y = shape.position.dy + shape.vertices[i].dy;
+          path.lineTo(x, y);
+        }
+        canvas.drawPath(path, paint);
       }
-      canvas.drawPath(path, paint);
     }
   }
 
@@ -211,13 +241,13 @@ class LayoutDesignPainter extends CustomPainter {
     if (appData.shapesList.isNotEmpty) {
       for (int i = 0; i < appData.shapesList.length; i++) {
         Shape shape = appData.shapesList[i];
-        paintShape(canvas, shape);
+        paintShape(canvas, shape, i == appData.shapeSelected);
       }
     }
 
     // Dibuixa el poligon que s'està afegint (relatiu a la seva posició)
     Shape shape = appData.newShape;
-    paintShape(canvas, shape);
+    paintShape(canvas, shape, false);
 
     // Restaura l'estat previ a l'escalat i translació
     canvas.restore();
