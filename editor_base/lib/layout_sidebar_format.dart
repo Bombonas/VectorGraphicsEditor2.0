@@ -43,7 +43,10 @@ class LayoutSidebarFormatState extends State<LayoutSidebarFormat> {
                       alignment: Alignment.centerLeft,
                       width: 80,
                       child: CDKFieldNumeric(
-                        value: appData.newShape.strokeWidth,
+                        value: appData.shapeSelected == -1
+                            ? appData.newShape.strokeWidth
+                            : appData
+                                .shapesList[appData.shapeSelected].strokeWidth,
                         min: 0.01,
                         max: 100,
                         units: "px",
@@ -51,6 +54,11 @@ class LayoutSidebarFormatState extends State<LayoutSidebarFormat> {
                         decimals: 2,
                         onValueChanged: (value) {
                           appData.setNewShapeStrokeWidth(value);
+                          if (appData.shapeSelected != -1) {
+                            appData.shapesList[appData.shapeSelected]
+                                .strokeWidth = value;
+                            appData.forceNotifyListeners();
+                          }
                         },
                       )),
                 ]),
@@ -68,7 +76,10 @@ class LayoutSidebarFormatState extends State<LayoutSidebarFormat> {
                         builder: (context, value, child) {
                           return CDKButtonColor(
                               key: shapeColorKey,
-                              color: appData.valueShapeColorNotifier.value,
+                              color: appData.shapeSelected == -1
+                                  ? appData.valueShapeColorNotifier.value
+                                  : appData
+                                      .shapesList[appData.shapeSelected].color,
                               onPressed: () {
                                 CDKDialogsManager.showPopoverArrowed(
                                     key: DialogPopoverKey,
@@ -85,6 +96,13 @@ class LayoutSidebarFormatState extends State<LayoutSidebarFormat> {
                                             onChanged: (color) {
                                               appData.valueShapeColorNotifier
                                                   .value = color;
+                                              if (appData.shapeSelected != -1) {
+                                                appData
+                                                    .shapesList[
+                                                        appData.shapeSelected]
+                                                    .color = color;
+                                                appData.forceNotifyListeners();
+                                              }
                                             },
                                           );
                                         },
