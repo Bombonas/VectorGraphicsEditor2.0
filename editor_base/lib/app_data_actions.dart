@@ -93,6 +93,8 @@ class ActionAddNewShape implements Action {
 
   @override
   void undo() {
+    if (appData.shapesList.indexOf(newShape) == appData.shapeSelected)
+      appData.shapeSelected = -1;
     appData.shapesList.remove(newShape);
     appData.forceNotifyListeners();
   }
