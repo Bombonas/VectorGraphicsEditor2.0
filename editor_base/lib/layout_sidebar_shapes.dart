@@ -20,15 +20,30 @@ class LayoutSidebarShapes extends StatelessWidget {
             const Text('List of shapes'),
             const SizedBox(height: 8),
             ...appData.shapesList.map((shape) {
-              return Container(
-                  child: Row(children: [
-                Text("Shape ${appData.shapesList.indexOf(shape) + 1}"),
-                const SizedBox(width: 98),
-                CustomPaint(
-                  painter: SidebarShapePainter(shape),
-                  size: const Size(48, 48),
-                ),
-              ]));
+              return GestureDetector(
+                child: Container(
+                    color: appData.shapeSelected ==
+                            appData.shapesList.indexOf(shape)
+                        ? Theme.of(context).colorScheme.primary
+                        : null,
+                    child: Row(children: [
+                      Text(
+                        "Shape ${appData.shapesList.indexOf(shape) + 1}",
+                      ),
+                      const SizedBox(width: 98),
+                      CustomPaint(
+                        painter: SidebarShapePainter(shape),
+                        size: const Size(48, 48),
+                      ),
+                    ])),
+                onTap: () {
+                  appData.shapeSelected == appData.shapesList.indexOf(shape)
+                      ? appData.shapeSelected = -1
+                      : appData.shapeSelected =
+                          appData.shapesList.indexOf(shape);
+                  appData.forceNotifyListeners();
+                },
+              );
             }).toList(),
           ],
         ),
