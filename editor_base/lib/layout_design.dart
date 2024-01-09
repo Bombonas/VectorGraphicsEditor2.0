@@ -1,3 +1,4 @@
+import 'package:editor_base/app_click_selector.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_cupertino_desktop_kit/cdk.dart';
@@ -130,7 +131,7 @@ class LayoutDesignState extends State<LayoutDesign> {
                           ? SystemMouseCursors.precise
                           : MouseCursor.defer, // El cursor per defecte
                   child: Listener(
-                      onPointerDown: (event) {
+                      onPointerDown: (event) async {
                         _focusNode.requestFocus();
                         _isMouseButtonPressed = true;
                         if (appData.toolSelected == "shape_drawing") {
@@ -145,6 +146,28 @@ class LayoutDesignState extends State<LayoutDesign> {
                               docSize.height,
                               _scrollCenter.dx,
                               _scrollCenter.dy));
+                        } else if (appData.toolSelected == "pointer_shapes") {
+                          Offset center =
+                              Offset(_scrollCenter.dx, _scrollCenter.dy);
+                          Size docSize = Size(
+                              appData.docSize.width, appData.docSize.height);
+                          appData.setShapeSelected(
+                              await AppClickSelector.selectShapeAtPosition(
+                                  appData,
+                                  _getDocPosition(
+                                      event.localPosition,
+                                      appData.zoom,
+                                      constraints.maxWidth,
+                                      constraints.maxHeight,
+                                      docSize.width,
+                                      docSize.height,
+                                      _scrollCenter.dx,
+                                      _scrollCenter.dy),
+                                  event.localPosition,
+                                  constraints,
+                                  center));
+                          print(appData.shapesList);
+                          print(appData.shapeSelected);
                         }
                         setState(() {});
                       },

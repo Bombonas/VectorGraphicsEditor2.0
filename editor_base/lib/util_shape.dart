@@ -36,8 +36,4 @@ class Shape {
   void setStrokeWidth(double width) {
     strokeWidth = width;
   }
-
-  String getHola() {
-    return "hola";
-  }
 }

@@ -76,7 +76,6 @@ class AppData with ChangeNotifier {
       actionManager.register(ActionAddNewShape(this, newShape));
       newShape = Shape();
       newShape.setStrokeWidth(strokeWidthConfig);
-      shapesList.add(newShape);
     }
   }
 
