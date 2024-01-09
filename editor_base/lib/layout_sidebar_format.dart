@@ -101,13 +101,15 @@ class LayoutSidebarFormatState extends State<LayoutSidebarFormat> {
                                                     .shapesList[
                                                         appData.shapeSelected]
                                                     .color = color;
-                                                appData.forceNotifyListeners();
                                               }
                                             },
                                           );
                                         },
                                       ),
-                                    ));
+                                    ),
+                                    onHide: () {
+                                      appData.forceNotifyListeners();
+                                    });
                               });
                         })
                   ],
