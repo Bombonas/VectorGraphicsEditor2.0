@@ -17,7 +17,8 @@ class AppData with ChangeNotifier {
   Color prevBackgroundColor = CDKTheme.transparent;
   Shape newShape = Shape();
   List<Shape> shapesList = [];
-  ValueNotifier<Color> valueColorNotifier = ValueNotifier(CDKTheme.black);
+  ValueNotifier<Color> valueColorNotifier =
+      ValueNotifier(const Color.fromARGB(255, 255, 255, 255));
   ValueNotifier<Color> valueShapeColorNotifier = ValueNotifier(CDKTheme.black);
   int shapeSelected = -1;
   int shapeSelectedPrevious = -1;
@@ -75,6 +76,7 @@ class AppData with ChangeNotifier {
       actionManager.register(ActionAddNewShape(this, newShape));
       newShape = Shape();
       newShape.setStrokeWidth(strokeWidthConfig);
+      shapesList.add(newShape);
     }
   }
 
